@@ -10,6 +10,7 @@ import monHocRoutes from "./routes/monHocRoutes.js";
 import lopHocRoutes from "./routes/lopHocRoutes.js";
 import tkbRoutes from "./routes/tkbRoutes.js";
 import thongKeRoutes from "./routes/thongKeRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/monhoc", monHocRoutes);
 app.use("/api/lophoc", lopHocRoutes);
 app.use("/api/tkb", tkbRoutes);
 app.use("/api/thongke", thongKeRoutes);
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 3000;
 
