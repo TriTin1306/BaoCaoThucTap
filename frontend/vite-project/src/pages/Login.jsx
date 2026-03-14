@@ -25,31 +25,42 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Đăng nhập</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-100 to-green-200">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white w-96 p-8 rounded-xl shadow-2xl"
+      >
+        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">
+          Đăng Nhập
+        </h2>
 
-        <input
-          type="text"
-          placeholder="Tên đăng nhập"
-          className="w-full border p-2 mb-4"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <div className="mb-4">
+          <label className="block text-gray-600 mb-1">Tên Đănh Nhập</label>
+          <input
+            type="text"
+            placeholder="Enter username"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Mật khẩu"
-          className="w-full border p-2 mb-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="mb-6">
+          <label className="block text-gray-600 mb-1">Mật Khẩu</label>
+          <input
+            type="password"
+            placeholder="Enter password"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded"
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition duration-200"
         >
-          Đăng nhập
+          Đăng Nhập
         </button>
       </form>
     </div>
