@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import GiaoVien from "./pages/GiaoVien";
 import PrivateRoute from "./components/PrivateRoute";
+import ToChuyenMon from "./pages/ToChuyenMon";
 
 function App() {
   return (
@@ -24,6 +25,14 @@ function App() {
           element={
             <PrivateRoute>
               <GiaoVien />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tochuyenmon"
+          element={
+            <PrivateRoute>
+              <ToChuyenMon />
             </PrivateRoute>
           }
         />

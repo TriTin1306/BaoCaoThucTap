@@ -10,7 +10,7 @@ function Navbar() {
 
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white px-3 py-1 rounded"
+        className="bg-green-500 text-white px-3 py-1 rounded"
       >
         Đăng xuất
       </button>

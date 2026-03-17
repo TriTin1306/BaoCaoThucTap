@@ -26,6 +26,7 @@ function GiaoVien() {
   =================================*/
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [oldId, setOldId] = useState("");
 
   /* ================================
      3️⃣ STATE LƯU DỮ LIỆU FORM
@@ -40,6 +41,7 @@ function GiaoVien() {
     so_dien_thoai: "",
     dia_chi: "",
     ma_to: "",
+    chuc_vu: "",
   });
 
   /* ================================
@@ -48,13 +50,18 @@ function GiaoVien() {
   =================================*/
   const loadGiaoVien = async () => {
     try {
-      const data = await getGiaoVien(); // gọi API
-      setGiaoVien(data); // lưu vào state
+      const data = await getGiaoVien();
+
+      // Sắp xếp theo mã tăng dần
+      const sorted = data.sort((a, b) =>
+        a.ma_giao_vien.localeCompare(b.ma_giao_vien),
+      );
+
+      setGiaoVien(sorted);
     } catch (error) {
       console.error(error);
     }
   };
-
   /* ================================
      useEffect chạy khi component load
   =================================*/
@@ -97,6 +104,7 @@ function GiaoVien() {
         so_dien_thoai: "",
         dia_chi: "",
         ma_to: "",
+        chuc_vu: "",
       });
 
       loadGiaoVien(); // reload dữ liệu
@@ -109,18 +117,18 @@ function GiaoVien() {
      7️⃣ CHỌN GIÁO VIÊN ĐỂ SỬA
   =================================*/
   const handleEdit = (gv) => {
-    setFormData(gv); // đổ dữ liệu vào form
+    setFormData(gv);
+    setOldId(gv.ma_giao_vien); // lưu mã cũ
     setEditing(true);
     setShowForm(true);
   };
-
   /* ================================
      8️⃣ CẬP NHẬT GIÁO VIÊN
      gọi API update
   =================================*/
   const handleUpdate = async () => {
     try {
-      await updateGiaoVien(formData.ma_giao_vien, formData);
+      await updateGiaoVien(oldId, formData);
 
       setShowForm(false);
       setEditing(false);
@@ -234,6 +242,19 @@ function GiaoVien() {
               value={formData.ma_to || ""}
               onChange={handleChange}
             />
+            <select
+              name="chuc_vu"
+              className="border p-2"
+              value={formData.chuc_vu || ""}
+              onChange={handleChange}
+            >
+              <option value="">Chọn chức vụ</option>
+              <option value="Hiệu trưởng">Hiệu trưởng</option>
+              <option value="PHT">PHT</option>
+              <option value="Tổ trưởng">Tổ trưởng</option>
+              <option value="Tổ phó">Tổ phó</option>
+              <option value="Giáo viên">Giáo viên</option>
+            </select>
           </div>
 
           {/* BUTTON FORM */}
@@ -269,6 +290,7 @@ function GiaoVien() {
             <th className="border p-2">Giới tính</th>
             <th className="border p-2">Địa chỉ</th>
             <th className="border p-2">Mã tổ</th>
+            <th className="border p-2">Chức vụ</th>
             <th className="border p-2">Chức năng</th>
           </tr>
         </thead>
@@ -290,6 +312,7 @@ function GiaoVien() {
               <td className="border p-2">{gv.gioi_tinh}</td>
               <td className="border p-2">{gv.dia_chi}</td>
               <td className="border p-2">{gv.ma_to}</td>
+              <td className="border p-2">{gv.chuc_vu}</td>
 
               <td className="border p-2">
                 <button
