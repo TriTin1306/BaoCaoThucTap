@@ -10,6 +10,7 @@ import {
   createGiaoVien,
   updateGiaoVien,
   deleteGiaoVien,
+  getToChuyenMon,
 } from "../api/api";
 
 function GiaoVien() {
@@ -27,6 +28,7 @@ function GiaoVien() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(false);
   const [oldId, setOldId] = useState("");
+  const [toChuyenMon, setToChuyenMon] = useState([]);
 
   /* ================================
      3️⃣ STATE LƯU DỮ LIỆU FORM
@@ -68,6 +70,8 @@ function GiaoVien() {
   useEffect(() => {
     const fetchData = async () => {
       await loadGiaoVien();
+      const toData = await getToChuyenMon();
+      setToChuyenMon(toData);
     };
 
     fetchData();
@@ -159,17 +163,19 @@ function GiaoVien() {
       {/* ================================
          10️⃣ TIÊU ĐỀ + NÚT THÊM
       =================================*/}
-      <div className="flex justify-between mb-4">
-        <h2 className="text-2xl font-bold">Quản lý giáo viên</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold text-gray-700">
+          👨‍🏫 Quản lý giáo viên
+        </h2>
 
         <button
           onClick={() => {
             setShowForm(true);
             setEditing(false);
           }}
-          className="bg-blue-500 text-white px-4 py-2"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded shadow"
         >
-          Thêm giáo viên
+          + Thêm giáo viên
         </button>
       </div>
 
@@ -177,12 +183,12 @@ function GiaoVien() {
          11️⃣ FORM THÊM / SỬA
       =================================*/}
       {showForm && (
-        <div className="border p-4 mb-4 bg-gray-100">
+        <div className="border p-6 mb-6 bg-white rounded shadow">
           <div className="grid grid-cols-2 gap-4">
             <input
               name="ma_giao_vien"
               placeholder="Mã giáo viên"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.ma_giao_vien || ""}
               onChange={handleChange}
             />
@@ -190,7 +196,7 @@ function GiaoVien() {
             <input
               name="ten_giao_vien"
               placeholder="Tên giáo viên"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.ten_giao_vien || ""}
               onChange={handleChange}
             />
@@ -198,7 +204,7 @@ function GiaoVien() {
             <input
               type="date"
               name="ngay_sinh"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.ngay_sinh || ""}
               onChange={handleChange}
             />
@@ -206,7 +212,7 @@ function GiaoVien() {
             <input
               name="gioi_tinh"
               placeholder="Giới tính"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.gioi_tinh || ""}
               onChange={handleChange}
             />
@@ -214,7 +220,7 @@ function GiaoVien() {
             <input
               name="email"
               placeholder="Email"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.email || ""}
               onChange={handleChange}
             />
@@ -222,7 +228,7 @@ function GiaoVien() {
             <input
               name="so_dien_thoai"
               placeholder="SĐT"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.so_dien_thoai || ""}
               onChange={handleChange}
             />
@@ -230,21 +236,28 @@ function GiaoVien() {
             <input
               name="dia_chi"
               placeholder="Địa chỉ"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.dia_chi || ""}
               onChange={handleChange}
             />
 
-            <input
+            <select
               name="ma_to"
-              placeholder="Mã tổ"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.ma_to || ""}
               onChange={handleChange}
-            />
+            >
+              <option value="">-- Chọn tổ chuyên môn --</option>
+              {toChuyenMon.map((to) => (
+                <option key={to.ma_to} value={to.ma_to}>
+                  {to.ma_to} - {to.ten_to}
+                </option>
+              ))}
+            </select>
+
             <select
               name="chuc_vu"
-              className="border p-2"
+              className="border p-2 rounded"
               value={formData.chuc_vu || ""}
               onChange={handleChange}
             >
@@ -261,14 +274,14 @@ function GiaoVien() {
           <div className="mt-4">
             <button
               onClick={editing ? handleUpdate : handleAdd}
-              className="bg-green-500 text-white px-4 py-2 mr-2"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mr-2"
             >
               {editing ? "Cập nhật" : "Thêm"}
             </button>
 
             <button
               onClick={() => setShowForm(false)}
-              className="bg-gray-500 text-white px-4 py-2"
+              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
             >
               Hủy
             </button>
@@ -279,52 +292,72 @@ function GiaoVien() {
       {/* ================================
          12️⃣ BẢNG HIỂN THỊ GIÁO VIÊN
       =================================*/}
-      <table className="w-full border">
+      <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
         <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">Mã</th>
-            <th className="border p-2">Tên</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">SĐT</th>
-            <th className="border p-2">Ngày sinh</th>
-            <th className="border p-2">Giới tính</th>
-            <th className="border p-2">Địa chỉ</th>
-            <th className="border p-2">Mã tổ</th>
-            <th className="border p-2">Chức vụ</th>
-            <th className="border p-2">Chức năng</th>
+          <tr className="bg-blue-500 text-white text-center">
+            <th className="p-3">Mã</th>
+            <th className="p-3">Tên</th>
+            <th className="p-3">Email</th>
+            <th className="p-3">SĐT</th>
+            <th className="p-3">Ngày sinh</th>
+            <th className="p-3">Giới tính</th>
+            <th className="p-3">Địa chỉ</th>
+            <th className="p-3">Tổ</th>
+            <th className="p-3">Chức vụ</th>
+            <th className="p-3">Chức năng</th>
           </tr>
         </thead>
 
         <tbody>
-          {giaoVien.map((gv) => (
-            <tr key={gv.ma_giao_vien}>
-              <td className="border p-2">{gv.ma_giao_vien}</td>
-              <td className="border p-2">{gv.ten_giao_vien}</td>
-              <td className="border p-2">{gv.email}</td>
-              <td className="border p-2">{gv.so_dien_thoai}</td>
+          {giaoVien.map((gv, index) => (
+            <tr
+              key={gv.ma_giao_vien}
+              className={`text-center ${
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
+              } hover:bg-blue-100 transition`}
+            >
+              <td className="p-3 font-semibold">{gv.ma_giao_vien}</td>
+              <td>{gv.ten_giao_vien}</td>
+              <td>{gv.email}</td>
+              <td>{gv.so_dien_thoai}</td>
 
-              <td className="border p-2">
+              <td>
                 {gv.ngay_sinh
                   ? new Date(gv.ngay_sinh).toLocaleDateString()
                   : ""}
               </td>
 
-              <td className="border p-2">{gv.gioi_tinh}</td>
-              <td className="border p-2">{gv.dia_chi}</td>
-              <td className="border p-2">{gv.ma_to}</td>
-              <td className="border p-2">{gv.chuc_vu}</td>
+              <td>
+                <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded">
+                  {gv.gioi_tinh}
+                </span>
+              </td>
 
-              <td className="border p-2">
+              <td>{gv.dia_chi}</td>
+
+              <td>
+                <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                  {gv.ma_to}
+                </span>
+              </td>
+
+              <td>
+                <span className="bg-green-100 text-green-700 px-2 py-1 rounded">
+                  {gv.chuc_vu}
+                </span>
+              </td>
+
+              <td className="p-2">
                 <button
                   onClick={() => handleEdit(gv)}
-                  className="bg-yellow-500 text-white px-2 py-1 mr-2"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded mr-2"
                 >
                   Sửa
                 </button>
 
                 <button
                   onClick={() => handleDelete(gv.ma_giao_vien)}
-                  className="bg-red-500 text-white px-2 py-1"
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                 >
                   Xóa
                 </button>

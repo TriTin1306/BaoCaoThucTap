@@ -9,8 +9,12 @@ function Navbar() {
       <h1 className="text-lg font-bold">Hệ thống quản lý giáo viên</h1>
 
       <button
-        onClick={handleLogout}
-        className="bg-green-500 text-white px-3 py-1 rounded"
+        onClick={() => {
+          if (window.confirm("Bạn có chắc muốn đăng xuất không?")) {
+            handleLogout();
+          }
+        }}
+        className="bg-blue-500 text-white px-3 py-1 rounded"
       >
         Đăng xuất
       </button>

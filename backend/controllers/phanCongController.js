@@ -10,37 +10,53 @@ export const getAllPhanCong = async (req, res) => {
 };
 
 //post phân công
+//post phân công (THÊM AUTO MÃ)
 export const createPhanCong = async (req, res) => {
-  const {
-    ma_phan_cong,
-    ma_giao_vien,
-    ma_lop,
-    ma_mon,
-    thu,
-    tiet,
-    nam_hoc,
-    hoc_ky,
-  } = req.body;
+  try {
+    const { ma_giao_vien, ma_lop, ma_mon, thu, tiet, nam_hoc, hoc_ky } =
+      req.body;
 
-  const { data, error } = await supabase
-    .from("phan_cong")
-    .insert([
-      {
-        ma_phan_cong,
-        ma_giao_vien,
-        ma_lop,
-        ma_mon,
-        thu,
-        tiet,
-        nam_hoc,
-        hoc_ky,
-      },
-    ])
-    .select();
+    const { data: lastData, error: err1 } = await supabase
+      .from("phan_cong")
+      .select("ma_phan_cong")
+      .order("ma_phan_cong", { ascending: false })
+      .limit(1);
 
-  if (error) return res.status(500).json({ error });
+    if (err1) return res.status(500).json({ error: err1 });
 
-  res.json(data);
+    let newMa = "PC001";
+
+    if (lastData && lastData.length > 0) {
+      const lastMa = lastData[0].ma_phan_cong || "PC000";
+
+      const number = parseInt(lastMa.slice(2)) || 0;
+
+      // 🔥 FIX QUAN TRỌNG
+      newMa = "PC" + (number + 1).toString().padStart(3, "0");
+    }
+
+    const { data, error } = await supabase
+      .from("phan_cong")
+      .insert([
+        {
+          ma_phan_cong: newMa,
+          ma_giao_vien,
+          ma_lop,
+          ma_mon,
+          thu,
+          tiet,
+          nam_hoc,
+          hoc_ky,
+        },
+      ])
+      .select();
+
+    if (error) return res.status(500).json({ error });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 //cập nhật phân công

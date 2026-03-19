@@ -122,3 +122,69 @@ export const deleteToChuyenMon = async (id) => {
 
   return response.json();
 };
+
+// CRUD PHÂN CÔNG
+/* =================================
+   🔟 LẤY DANH SÁCH PHÂN CÔNG
+================================= */
+export const getAllPhanCong = async () => {
+  const response = await fetch(`${API_URL}/phancong`);
+  return response.json();
+};
+
+/* =================================
+   1️⃣1️⃣ THÊM PHÂN CÔNG
+================================= */
+export const createPhanCong = async (data) => {
+  const response = await fetch(`${API_URL}/phancong`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+/* =================================
+   1️⃣2️⃣ CẬP NHẬT PHÂN CÔNG
+================================= */
+export const updatePhanCong = async (id, data) => {
+  const response = await fetch(`${API_URL}/phancong/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+/* =================================
+   1️⃣3️⃣ XÓA PHÂN CÔNG
+================================= */
+export const deletePhanCong = async (id) => {
+  const response = await fetch(`${API_URL}/phancong/${id}`, {
+    method: "DELETE",
+  });
+
+  return response.json();
+};
+
+/* =================================
+   LẤY DANH SÁCH MÔN HỌC
+================================= */
+export const getMonHoc = async () => {
+  const response = await fetch(`${API_URL}/monhoc`);
+  return response.json();
+};
+
+/* =================================
+   LẤY DANH SÁCH LỚP
+================================= */
+export const getLop = async () => {
+  const response = await fetch(`${API_URL}/lophoc`);
+  return response.json();
+};

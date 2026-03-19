@@ -25,7 +25,7 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-100 to-green-200">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-100 bg-blue-200">
       <form
         onSubmit={handleLogin}
         className="bg-white w-96 p-8 rounded-xl shadow-2xl"
@@ -39,7 +39,7 @@ function Login() {
           <input
             type="text"
             placeholder="Enter username"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -50,7 +50,7 @@ function Login() {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -58,7 +58,7 @@ function Login() {
 
         <button
           type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition duration-200"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition duration-200"
         >
           Đăng Nhập
         </button>

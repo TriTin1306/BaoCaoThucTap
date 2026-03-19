@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-64 h-screen bg-green-500 text-white p-4">
+    <div className="w-64 h-screen bg-blue-500 text-white p-4">
       <h2 className="text-xl font-bold mb-6">Quản Lý Giáo Viên</h2>
 
       <ul className="space-y-3">
