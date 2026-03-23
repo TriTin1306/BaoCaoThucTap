@@ -188,3 +188,23 @@ export const getLop = async () => {
   const response = await fetch(`${API_URL}/lophoc`);
   return response.json();
 };
+
+/* =================================
+   TKB THEO LỚP
+================================= */
+export const getTKBTheoLop = async (ma_lop) => {
+  const response = await fetch(
+    `${API_URL}/tkb/lop/${ma_lop}`, // ✅ sửa ở đây
+  );
+  return response.json();
+};
+
+/* =================================
+   TKB THEO GIÁO VIÊN
+================================= */
+export const getTKBTheoGiaoVien = async (ma_giao_vien) => {
+  const response = await fetch(
+    `${API_URL}/tkb/giaovien/${ma_giao_vien}`, // ✅ sửa ở đây
+  );
+  return response.json();
+};

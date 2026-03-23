@@ -6,6 +6,7 @@ import GiaoVien from "./pages/GiaoVien";
 import PrivateRoute from "./components/PrivateRoute";
 import ToChuyenMon from "./pages/ToChuyenMon";
 import PhanCong from "./pages/PhanCong";
+import ThoiKhoaBieu from "./pages/ThoiKhoaBieu";
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
           element={
             <PrivateRoute>
               <PhanCong />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/thoikhoabieu"
+          element={
+            <PrivateRoute>
+              <ThoiKhoaBieu />
             </PrivateRoute>
           }
         />
